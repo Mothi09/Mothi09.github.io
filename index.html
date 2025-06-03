@@ -256,27 +256,32 @@ Testing ascii animations
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D ASCII Cube</title>
+  <title>Tiny ASCII Cube</title>
   <style>
     body {
       background: black;
       color: lime;
-      font-family: monospace;
-      font-size: 12px;
-      white-space: pre;
-      text-align: center;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
     pre {
-      line-height: 90%;
+      font-family: monospace;
+      font-size: 6px;
+      line-height: 5px;
+      white-space: pre;
     }
   </style>
 </head>
 <body>
-  <pre id="ascii-cube"></pre>
+  <pre id="cube"></pre>
 
   <script>
-    const pre = document.getElementById('ascii-cube');
-    const w = 40, h = 24;
+    const cube = document.getElementById("cube");
+    const w = 24, h = 12;
     let A = 0, B = 0;
 
     const render = () => {
@@ -297,8 +302,8 @@ Testing ascii animations
               n = Math.sin(B),
               t = c * h_ * g - f * e;
 
-          let x = Math.floor(w / 2 + 15 * D * (l * h_ * m - t * n)),
-              y = Math.floor(h / 2 + 7 * D * (l * h_ * n + t * m)),
+          let x = Math.floor(w / 2 + 10 * D * (l * h_ * m - t * n)),
+              y = Math.floor(h / 2 + 5 * D * (l * h_ * n + t * m)),
               o = Math.floor(x + w * y),
               N = Math.floor(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
 
@@ -309,7 +314,7 @@ Testing ascii animations
         }
       }
 
-      pre.textContent = b.join('');
+      cube.textContent = b.join('');
       A += 0.04;
       B += 0.08;
     };
