@@ -252,75 +252,58 @@
 
 <!DOCTYPE html>
 <html>
-<body>
-<div id="cube-box"><pre id="cube">loading...</pre></div>
-
-<style>
-  #cube-box {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 220px;
-    height: 140px;
-    background: black;
-    z-index: 9999;
-    color: lime;
-    font-family: monospace;
-    font-size: 9px;
-    line-height: 7px;
-    overflow: hidden;
-    padding: 4px;
-    box-sizing: border-box;
-    pointer-events: none;
-  }
-  #cube {
-    margin: 0;
-    white-space: pre;
-  }
-</style>
-
-<script>
-  const cubeEl = document.getElementById("cube");
-  const width = 24, height = 12;
-  let A = 0, B = 0;
-
-  function render() {
-    const b = Array(width * height).fill(" ");
-    const z = Array(width * height).fill(0);
-
-    for (let j = 0; j < 6.28; j += 0.3) {
-      for (let i = 0; i < 6.28; i += 0.1) {
-        const c = Math.sin(i),
-              d = Math.cos(j),
-              e = Math.sin(A),
-              f = Math.sin(j),
-              g = Math.cos(A),
-              h = d + 2,
-              D = 1 / (c * h * e + f * g + 5),
-              l = Math.cos(i),
-              m = Math.cos(B),
-              n = Math.sin(B),
-              t = c * h * g - f * e;
-
-        const x = Math.floor(width / 2 + 10 * D * (l * h * m - t * n)),
-              y = Math.floor(height / 2 + 5 * D * (l * h * n + t * m)),
-              o = x + width * y,
-              N = Math.floor(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
-
-        if (height > y && y > 0 && x > 0 && width > x && D > z[o]) {
-          z[o] = D;
-          b[o] = ".,-~:;=!*#$@"[Math.max(N, 0)];
-        }
-      }
+<head>
+  <title>Chat</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: white; margin: 0; }
+    #chatbox {
+      display: flex; flex-direction: column;
+      height: 90vh; max-width: 600px; margin: auto;
+      border: 1px solid #333; padding: 10px;
     }
+    #messages {
+      flex: 1; overflow-y: auto; border: 1px solid #444; padding: 5px;
+      background: #222;
+    }
+    #form { display: flex; margin-top: 10px; }
+    #input {
+      flex: 1; padding: 8px; background: #000; border: 1px solid #555; color: white;
+    }
+    #send {
+      padding: 8px 16px; background: #4caf50; border: none; color: white; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div id="messages"></div>
+    <form id="form">
+      <input id="input" autocomplete="off" placeholder="Type a message..." />
+      <button id="send">Send</button>
+    </form>
+  </div>
 
-    cubeEl.textContent = b.join("");
-    A += 0.04;
-    B += 0.08;
-  }
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io('https://YOUR_BACKEND_URL'); // Replace this!
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
 
-  setInterval(render, 50);
-</script>
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
+    });
 
+    socket.on('chat message', function(msg) {
+      const item = document.createElement('div');
+      item.textContent = msg;
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+  </script>
 </body>
 </html>
