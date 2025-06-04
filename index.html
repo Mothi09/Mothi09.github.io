@@ -279,13 +279,13 @@
     <div id="messages"></div>
     <form id="form">
       <input id="input" autocomplete="off" placeholder="Type a message..." />
-      <button id="sendy">Send</button>
+      <button id="send">Sendy</button>
     </form>
   </div>
 
-  <script src="windows93.net/trollbox/"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    const socket = io('windows93.net/trollbox/'); // Replace this!
+    const socket = io('https://blue-dent-chemistry.glitch.me'); // Replace this!
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const messages = document.getElementById('messages');
