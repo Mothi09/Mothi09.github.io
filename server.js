@@ -8,13 +8,17 @@ const io = new Server(server, {
   cors: { origin: "*" }
 });
 
+app.get('/', (req, res) => {
+  res.send('Chat server is running!');
+});
+
 io.on('connection', socket => {
   console.log('a user connected');
   socket.on('chat message', msg => {
-    io.emit('chat message', msg); // broadcast to everyone
+    io.emit('chat message', msg); // send to everyone
   });
 });
 
 server.listen(3000, () => {
-  console.log('server running on http://localhost:3000');
+  console.log('Server running on port 3000');
 });
