@@ -253,78 +253,74 @@
 <!DOCTYPE html>
 <html>
 <body>
-<div id="ascii-cube-container">
-<pre id="ascii-cube">loadery...</pre>
-</div>
+<div id="cube-box"><pre id="cube">loading...</pre></div>
 
 <style>
-  #ascii-cube-container {
+  #cube-box {
     position: fixed;
     bottom: 0;
     right: 0;
-    margin: 10px;
-    width: 300px;
-    height: 200px;
-    overflow: hidden;
+    width: 220px;
+    height: 140px;
     background: black;
     z-index: 9999;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #ascii-cube {
-    font-family: monospace;
-    font-size: 10px;
-    line-height: 8px;
     color: lime;
+    font-family: monospace;
+    font-size: 9px;
+    line-height: 7px;
+    overflow: hidden;
+    padding: 4px;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+  #cube {
+    margin: 0;
     white-space: pre;
-    background: transparent;
   }
 </style>
 
 <script>
-  const cube = document.getElementById("ascii-cube");
-  const w = 24, h = 12;
+  const cubeEl = document.getElementById("cube");
+  const width = 24, height = 12;
   let A = 0, B = 0;
 
-  const render = () => {
-    let b = Array(w * h).fill(' ');
-    let z = Array(w * h).fill(0);
+  function render() {
+    const b = Array(width * height).fill(" ");
+    const z = Array(width * height).fill(0);
 
     for (let j = 0; j < 6.28; j += 0.3) {
       for (let i = 0; i < 6.28; i += 0.1) {
-        let c = Math.sin(i),
-            d = Math.cos(j),
-            e = Math.sin(A),
-            f = Math.sin(j),
-            g = Math.cos(A),
-            h_ = d + 2,
-            D = 1 / (c * h_ * e + f * g + 5),
-            l = Math.cos(i),
-            m = Math.cos(B),
-            n = Math.sin(B),
-            t = c * h_ * g - f * e;
+        const c = Math.sin(i),
+              d = Math.cos(j),
+              e = Math.sin(A),
+              f = Math.sin(j),
+              g = Math.cos(A),
+              h = d + 2,
+              D = 1 / (c * h * e + f * g + 5),
+              l = Math.cos(i),
+              m = Math.cos(B),
+              n = Math.sin(B),
+              t = c * h * g - f * e;
 
-        let x = Math.floor(w / 2 + 10 * D * (l * h_ * m - t * n)),
-            y = Math.floor(h / 2 + 5 * D * (l * h_ * n + t * m)),
-            o = Math.floor(x + w * y),
-            N = Math.floor(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
+        const x = Math.floor(width / 2 + 10 * D * (l * h * m - t * n)),
+              y = Math.floor(height / 2 + 5 * D * (l * h * n + t * m)),
+              o = x + width * y,
+              N = Math.floor(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
 
-        if (h > y && y > 0 && x > 0 && w > x && D > z[o]) {
+        if (height > y && y > 0 && x > 0 && width > x && D > z[o]) {
           z[o] = D;
-          b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+          b[o] = ".,-~:;=!*#$@"[Math.max(N, 0)];
         }
       }
     }
 
-    cube.textContent = b.join('');
+    cubeEl.textContent = b.join("");
     A += 0.04;
     B += 0.08;
-  };
+  }
 
   setInterval(render, 50);
 </script>
+
 </body>
 </html>
