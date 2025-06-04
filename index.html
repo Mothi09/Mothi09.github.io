@@ -254,57 +254,51 @@
 <html>
 <head>
   <title>Chat</title>
-  <style>
-    body { font-family: sans-serif; background: #111; color: white; margin: 0; }
-    #chatbox {
-      display: flex; flex-direction: column;
-      height: 90vh; max-width: 600px; margin: auto;
-      border: 1px solid #333; padding: 10px;
-    }
-    #messages {
-      flex: 1; overflow-y: auto; border: 1px solid #444; padding: 5px;
-      background: #222;
-    }
-    #form { display: flex; margin-top: 10px; }
-    #input {
-      flex: 1; padding: 8px; background: #000; border: 1px solid #555; color: white;
-    }
-    #send {
-      padding: 8px 16px; background: #4caf50; border: none; color: white; cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div id="chatbox">
-    <div id="messages"></div>
-    <form id="form">
-      <input id="input" autocomplete="off" placeholder="Type a message..." />
-      <button id="send">Sendy</button>
-    </form>
-  </div>
+<style>
+  #chatbox {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    max-width: 600px;
+    width: 100%;
+    background: #111;
+    color: white;
+    font-family: sans-serif;
+    border-top: 1px solid #333;
+    padding: 10px;
+    z-index: 9999;
+  }
 
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script>
-    const socket = io('https://blue-dent-chemistry.glitch.me'); // Replace this!
-    const form = document.getElementById('form');
-    const input = document.getElementById('input');
-    const messages = document.getElementById('messages');
+  #messages {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #222;
+    padding: 5px;
+    border: 1px solid #444;
+    margin-bottom: 5px;
+  }
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      if (input.value) {
-        socket.emit('chat message', input.value);
-        input.value = '';
-      }
-    });
+  #form {
+    display: flex;
+  }
 
-    socket.on('chat message', function(msg) {
-      const item = document.createElement('div');
-      item.textContent = msg;
-      messages.appendChild(item);
-      messages.scrollTop = messages.scrollHeight;
-    });
-  </script>
+  #input {
+    flex: 1;
+    padding: 8px;
+    background: #000;
+    border: 1px solid #555;
+    color: white;
+  }
+
+  #send {
+    padding: 8px 16px;
+    background: #4caf50;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+
 </body>
 </html>
 
