@@ -250,3 +250,123 @@
 
 <p>--------------------------------------------------------------------------------</p>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatroom</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #chat {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 10px;
+      background: #111;
+      border: 1px solid #444;
+      border-radius: 10px;
+    }
+
+    #messages {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #333;
+      padding: 5px;
+      margin-bottom: 10px;
+      background: #000;
+    }
+
+    #input {
+      display: flex;
+      gap: 5px;
+    }
+
+    input, button {
+      font-size: 1rem;
+      padding: 5px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+    }
+
+    button {
+      background-color: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat">
+    <div id="messages"></div>
+    <div id="input">
+      <input type="text" id="username" placeholder="Name">
+      <input type="text" id="message" placeholder="Message">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Firebase (REQUIRED) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+  <script>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBOZ2NkBNKYgB5TRMP-iYmNWlcCaH_5Plo",
+  authDomain: "chatroom-233c4.firebaseapp.com",
+  databaseURL: "https://chatroom-233c4-default-rtdb.firebaseio.com",
+  projectId: "chatroom-233c4",
+  storageBucket: "chatroom-233c4.firebasestorage.app",
+  messagingSenderId: "637474606219",
+  appId: "1:637474606219:web:7cfd855f7e3c9bf85ad88e",
+  measurementId: "G-F5S5WGBEMN"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const messagesRef = db.ref("messages");
+
+    // Listen for new messages
+    messagesRef.on("child_added", (snapshot) => {
+      const data = snapshot.val();
+      const msgBox = document.getElementById("messages");
+      const msg = document.createElement("div");
+      msg.textContent = `${data.name}: ${data.text}`;
+      msgBox.appendChild(msg);
+      msgBox.scrollTop = msgBox.scrollHeight;
+    });
+
+    function sendMessage() {
+      const name = document.getElementById("username").value.trim();
+      const text = document.getElementById("message").value.trim();
+      if (!name || !text) return;
+
+      messagesRef.push({ name, text });
+      document.getElementById("message").value = "";
+    }
+  </script>
+</body>
+</html>
