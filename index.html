@@ -256,8 +256,8 @@
   <title>Chatroom</title>
   <style>
     body {
-      background-color: black;
-      color: white;
+      background-color: white;
+      color: black;
       font-family: sans-serif;
       margin: 0;
       padding: 0;
@@ -359,10 +359,19 @@ const analytics = getAnalytics(app);
       msgBox.scrollTop = msgBox.scrollHeight;
     });
 
-    function sendMessage() {
-      const name = document.getElementById("username").value.trim();
-      const text = document.getElementById("message").value.trim();
-      if (!name || !text) return;
+   function sendMessage() {
+  const name = document.getElementById("username").value.trim();
+  const text = document.getElementById("message").value.trim();
+  if (!name || !text) {
+    console.log("Missing name or message");
+    return;
+  }
+
+  console.log("Sending:", { name, text });
+  messagesRef.push({ name, text });
+  document.getElementById("message").value = "";
+}
+
 
       messagesRef.push({ name, text });
       document.getElementById("message").value = "";
