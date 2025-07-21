@@ -311,13 +311,22 @@ print(f"Random float (0.0 to 1.0): {random_float}")</code></p>
     animation: spin 4s linear infinite;
   }
 
-  .face {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #0ff;
-    box-sizing: border-box;
+.face {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05); /* optional background */
+  box-sizing: border-box;
+}
+
+/* Each face gets a different border color */
+.front  { border: 1px solid red;         transform: translateZ(30px); }
+.back   { border: 1px solid orange;      transform: rotateY(180deg) translateZ(30px); }
+.right  { border: 1px solid yellow;      transform: rotateY(90deg) translateZ(30px); }
+.left   { border: 1px solid green;       transform: rotateY(-90deg) translateZ(30px); }
+.top    { border: 1px solid blue;        transform: rotateX(90deg) translateZ(30px); }
+.bottom { border: 1px solid violet;      transform: rotateX(-90deg) translateZ(30px); }
+
   }
 
   .front  { transform: translateZ(30px); }
